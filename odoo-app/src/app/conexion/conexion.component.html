@@ -1,0 +1,76 @@
+<div class="panel-heading">
+  <div class="panel-title text-center">
+	  <h1 class="title">Blancoamor</h1>
+	  <hr />
+	</div>
+</div>
+<!-- h2 class="form-signin-heading">{{message}}</h2 -->
+<div [ngClass]="classMessage()">
+      <strong>{{message}}</strong>
+</div>
+<div class="row">
+	<div class="col-md-3">
+	</div>
+	<div class="col-md-6">
+	        <label for="inputEmail" class="sr-only">Datos de conexión</label>
+                <div class="form-group">
+		  <label for="name" class="cols-sm-2 control-label">Servidor</label>
+		  <div class="cols-sm-10">
+			  <div class="input-group">
+				  <span class="input-group-addon"><i class="fa fa-server" aria-hidden="true"></i></span>
+                    		<input type="host" [(ngModel)]="ConnData.host" id="inputHost" class="form-control" placeholder="Servidor" required />
+			  </div>
+		  </div>
+	  </div>
+
+          <div class="form-group">
+ 		  <label for="name" class="cols-sm-2 control-label">Puerto</label>
+		  <div class="cols-sm-10">
+			  <div class="input-group">
+				  <span class="input-group-addon"><i class="fa fa-podcast" aria-hidden="true"></i></span>
+                    		<input type="port" [(ngModel)]="ConnData.port" id="inputPort" class="form-control" placeholder="Port" required />
+			  </div>
+		  </div>
+          </div>
+
+          <div class="form-group">
+ 		  <label for="name" class="cols-sm-2 control-label">Base de datos</label>
+		  <div class="cols-sm-10">
+			  <div class="input-group">
+				  <span class="input-group-addon"><i class="fa fa-database" aria-hidden="true"></i></span>
+       			          <input type="database" [(ngModel)]="ConnData.database" id="inputDatabase" class="form-control" placeholder="Base de datos" required>
+	                  </div>
+                  </div>
+            </div>
+
+            <div class="form-group">
+		  <label for="name" class="cols-sm-2 control-label">Usuario</label>
+		  <div class="cols-sm-10">
+			  <div class="input-group">
+				  <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+      			        <input type="email" [(ngModel)]="ConnData.username" id="inputEmail" class="form-control" placeholder="Usuario" required autofocus>
+       		           </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+ 		  <label for="name" class="cols-sm-2 control-label">Password</label>
+		  <div class="cols-sm-10">
+			<div class="input-group">
+				<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+		              	<input type="password" [(ngModel)]="ConnData.password" id="inputPassword" class="form-control" placeholder="Password" required>
+                  	</div>
+                  </div>
+              </div>
+	        <div class="checkbox">
+        		  <label>
+		            <input type="checkbox" value="remember-me"> Recordarme
+		       	  </label>
+        	</div>
+	        <button class="btn btn-lg btn-primary btn-block" type="submit" (click)="Conectar(ConnData);">Conectar</button>
+                <button class="btn btn-lg btn-primary btn-block" type="submit" (click)="cleanConexionData();">Clean</button>
+                <button class="btn btn-lg btn-primary btn-block" type="submit" (click)="generateConexionData();">Generar</button>
+	</div>
+	<div class="col-md-3">
+	</div>
+</div>

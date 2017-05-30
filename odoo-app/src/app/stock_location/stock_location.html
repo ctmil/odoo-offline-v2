@@ -1,0 +1,35 @@
+     <div id="top" class="row">
+	    <div class="col-md-3">
+	        <h2>{{message}}</h2>
+	    </div>
+     </div> <!-- /#top -->
+     <hr>
+     <div id="list" class="row">
+	   <div class="table-responsive col-md-12">
+	        <table class="table table-striped" cellspacing="0" cellpadding="0">
+	            <thead>
+               		<tr>
+	                    <th>ID</th>
+               		    <th>Nombre</th>
+	                 </tr>
+	            </thead>
+	            <tbody >
+               		<tr *ngFor="let stock_location of asyncStockLocation| async  | paginate: { itemsPerPage: ipp, currentPage: p, totalItems: total }">
+	                    <td *ngIf="stock_location">{{stock_location.id}}</td>
+               		    <td *ngIf="stock_location">{{stock_location.name}}</td>
+	                </tr>
+	            </tbody>
+	         </table>
+	     </div>
+     </div> <!-- /#list -->
+
+        <div id="bottom" class="row" >
+
+                    <div class="col-md-12" >
+                        <div class="spinner" [ngClass]="{ 'hidden': !loading }">
+                        </div>
+                        <pagination-controls (pageChange)="getPage($event)" ></pagination-controls>
+                    </div>
+
+             </div> <!-- /#bottom -->
+

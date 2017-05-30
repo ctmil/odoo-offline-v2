@@ -1,0 +1,56 @@
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" (click)="isCollapsed = !isCollapsed" aria-expanded="false" aria-controls="navbar">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" routerLink="/" routerLinkActive="active">{{title}}</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse" [collapse]="isCollapsed">
+        <ul class="nav navbar-nav navbar-right">
+        <li ><a routerLink="/" routerLinkActive="active">Inicio</a></li>
+        <li><a routerLink="/clientes" routerLinkActive="active">Clientes</a></li>
+        <li><a routerLink="/productos" routerLinkActive="active">Productos</a></li>
+        <li><a routerLink="/metodospago" routerLinkActive="active">Métodos Pago</a></li>
+        <li><a routerLink="/stocklocation" routerLinkActive="active">Depósitos</a></li>
+        <li><a routerLink="/productpricelist" routerLinkActive="active">Listas de Precios</a></li>
+        <li><a routerLink="/resusers" routerLinkActive="active">Vendedores</a></li>
+        <li><a routerLink="/syncro" routerLinkActive="active">Sync</a></li>
+        <li>
+          <!--
+          <a *ngIf="isConnected" title=`{{connectedServerString}}`>Conexión <i class="fa fa-check-circle-o" style="color:green;" aria-hidden="true"></i>
+          </a>
+          -->
+            <a *ngIf="isConnected" class="dropdown" dropdown [dropdownToggle]="true" (onOpen)="openMenu()" (onClose)="closeMenu()">
+                <span dropdown-open style="cursor: pointer;"><i class="fa fa-check-circle-o" style="color:green;" aria-hidden="true"></i> Conexión <i class="fa fa-caret-down" style="color:white;" aria-hidden="true"></i></span>
+                <ul class="dropdown-menu">
+                    <li><a style="cursor: pointer;" (click)="Desconectar()"><i class="fa fa-times-circle-o" style="color:red;" aria-hidden="true"></i> Desconectar</a></li>
+                    <li><a style="cursor: pointer;" (click)="Sincronizar()"><i class="fa fa-refresh" style="color:black;" aria-hidden="true"></i> Sincronizar</a></li>
+                    <li><a style="cursor: pointer;" (click)="toggleAutoSinc()"><i [ngClass]="toggleAutoSincClass()" style="color:black;" aria-hidden="true"></i> Auto-Sinc</a></li>
+                    <li><a routerLink="/conexion" routerLinkActive="active"><i class="fa fa-user-circle-o" style="color:black;" aria-hidden="true"></i> Datos de conexión</a></li>
+                    <li><hr/></li>
+                    <li><a target="_blank" href="http://{{ConnData.host}}:{{ConnData.port}}"><i class="fa fa-server" style="color:black;" aria-hidden="true"></i> {{ConnData.host}}:{{ConnData.port}} <i class="fa fa-external-link" style="color:black;" aria-hidden="true"></i></a></li>
+                    <li><a routerLink="/conexion" routerLinkActive="active"><i class="fa fa-database" style="color:black;" aria-hidden="true"></i> {{ConnData.database}}</a></li>
+                    <li><a routerLink="/conexion" routerLinkActive="active"><i class="fa fa-user-circle-o" style="color:black;" aria-hidden="true"></i> {{ConnData.username}}</a></li>
+                </ul>
+            </a>
+            <!--<select [ngModel]="userMenu" ng-options="">
+              </select>-->
+              <a *ngIf="isConnected==false" routerLink="/conexion" routerLinkActive="active">Ingresar <i class="fa fa-sign-in" style="color:white;" aria-hidden="true"></i></a>
+        </li>
+        </ul>
+    </div>
+  </div>
+</nav>
+<div id="main" class="container">
+  <div [ngClass]="classMessage()" style="display: none">
+      <strong>{{connectedServerString}}</strong>
+  </div>
+  <router-outlet></router-outlet>
+</div>
+<div id="bottom_gus">
+	<button (click)="onClickCreateIndex()">Crear indice</button>
+</div>

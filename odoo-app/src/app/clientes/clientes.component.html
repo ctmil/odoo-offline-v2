@@ -1,0 +1,91 @@
+	   <div class="jumbotron">
+		   <h2>{{ message }}</h2>
+		   <div class="row">
+			    <div class="col-md-6">
+        		            <label for="search-document-number" class="control-label">Documento</label>
+	        		    <input name="data[search]" class="form-control" 
+					[(ngModel)] = "userFilter.document_number"
+					id="search-document-number" type="text" placeholder="Buscar Clientes por DNI">
+			    </div>
+			    <div class="col-md-6">
+	                	    <label for="search-customer-name" class="control-label">Nombre</label>
+			            <input name="data[search]" class="form-control" 
+					[(ngModel)] = "userFilter.name"
+					id="search-customer-name" type="text" placeholder="Buscar Clientes por Nombre">
+			            <!-- span class="input-group-btn">
+        		       		<button class="btn btn-primary" type="submit">
+	        		            <span class="glyphicon glyphicon-search"></span>
+               				</button>
+			            </span -->
+			    </div>
+		   </div> 
+	     </div>
+	     <hr>
+	     <div id="list" class="row" *ngIf="userFilter.document_number == '' && userFilter.name == ''">
+		   <div class="table-responsive col-md-12">
+		        <table class="table table-striped" cellspacing="0" cellpadding="0">
+		            <thead>
+                		<tr>
+		                    <th>ID</th>
+                		    <th>Nombre</th>
+		                    <th>Phone</th>
+                		    <th>Email</th>
+	                            <th>Nro Documento</th>
+		                    <th class="actions">Acciones</th>
+		                 </tr>
+		            </thead>
+		            <tbody >
+                		<tr *ngFor="let client of asyncClientes| async | paginate: { itemsPerPage: ipp, currentPage: p, totalItems: total }">
+		                    <td *ngIf="client">{{client.id}}</td>
+                		    <td *ngIf="client">{{client.name}}</td>
+		                    <td *ngIf="client">{{client.phone}}</td>
+                		    <td *ngIf="client">{{client.email}}</td>
+	                            <td *ngIf="client">{{client.document_number}}</td>
+		                    <!-- td *ngIf="client" class="actions">
+                		        <a class="btn btn-success btn-xs" href="view.html">Ver</a>
+		                        <a class="btn btn-warning btn-xs" href="edit.html">Editar</a>
+		                    </td -->
+		                </tr>
+		            </tbody>
+		         </table>
+		     </div>
+	     </div> <!-- /#list -->
+	     <div id="list" class="row" *ngIf="userFilter.document_number != '' || userFilter.name != '' ">
+		<p>Entro por aca</p>
+		   <div class="table-responsive col-md-12">
+		        <table class="table table-striped" cellspacing="0" cellpadding="0">
+		            <thead>
+                		<tr>
+		                    <th>ID</th>
+                		    <th>Nombre</th>
+		                    <th>Phone</th>
+                		    <th>Email</th>
+	                            <th>Nro Documento</th>
+		                    <th class="actions">Acciones</th>
+		                 </tr>
+		            </thead>
+		            <tbody >
+                		<tr *ngFor="let client of data_clientes | filterBy: userFilter">
+		                    <td *ngIf="client">{{client.id}}</td>
+                		    <td *ngIf="client">{{client.name}}</td>
+		                    <td *ngIf="client">{{client.phone}}</td>
+                		    <td *ngIf="client">{{client.email}}</td>
+                        	    <td *ngIf="client">{{client.document_number}}</td>
+		                    <td *ngIf="client" class="actions">
+                		        <a class="btn btn-success btn-xs" href="view.html">Ver</a>
+		                        <a class="btn btn-warning btn-xs" href="edit.html">Editar</a>
+		                    </td>
+		                </tr>
+		            </tbody>
+		         </table>
+		     </div>
+	     </div> <!-- /#list -->
+	     <div id="bottom" class="row" *ngIf="userFilter.document_number == '' && userFilter.name == ''">
+		    <div class="col-md-12">
+             		<div >
+		                <div class="spinner" [ngClass]="{ 'hidden': !loading }"></div>
+                		<pagination-controls (pageChange)="getPage($event)"></pagination-controls>
+		        </div>
+		    </div>
+	     </div> <!-- /#bottom -->
+

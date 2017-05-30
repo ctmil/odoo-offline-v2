@@ -1,0 +1,74 @@
+{
+    "databases": {
+        "tickets":  {
+            "key_name": [ "id", "client" ],
+            "dbname": "tickets",
+            "dbsyncname": "tickets",
+            "adapter": "websql"
+        },
+        "res.partner": {
+            "key_name": [ "id", "name" ],
+            "dbname": "res.partner",
+            "dbsyncname": "res_partner",
+            "adapter": "websql",
+            "indexes": {
+              "idx_document_number": {
+                "field": "document_number"
+              }
+            }
+        },
+	"metodo.pago": {
+            "key_name": [ "name" ],
+            "dbname": "metodo.pago",
+            "dbsyncname": "metodo_pago"
+	},
+        "product.product": {
+            "key_name": [ "default_code", "name" ],
+            "dbname": "product.product",
+            "dbsyncname": "product_product",
+            "adapter": "websql",
+            "indexes": {
+              "idx_default_code": {
+                "field": "default_code"
+              }
+            }
+        },
+	"stock.location": {
+	  "key_name": ["id"],
+	  "dbname": "stock.location",
+	  "dbsyncname": "stock_location"
+	},
+	"product.pricelist": {
+	  "key_name": ["id"],
+	  "dbname": "product.pricelist",
+	  "dbsyncname": "product_pricelist"
+	},
+	"res.users": {
+	  "key_name": ["id"],
+	  "dbname": "res.users",
+	  "dbsyncname": "res_users"
+	}
+    },
+    "point_of_sale": {
+      "number": "0098"
+    },
+    "auth": {
+        "couchdb": {
+            "host": "http://localhost",
+            "port": "5984",
+            "username": "",
+            "password": ""
+        },
+        "syncoptions": {
+            "live": true,
+            "retry": true
+        },
+        "odoo": {
+            "host": "http://localhost",
+            "port": "8069",
+            "db": "ddd",
+            "username": "uuu",
+            "password": "ppp"
+        }
+    }
+}

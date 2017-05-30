@@ -1,0 +1,90 @@
+
+<div *ngIf="newPayment && addingpayment==true" class="modal fade show in" id="add-payment-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="modalLabel">Agregar Pago</h4>
+            </div>
+            <div class="modal-body">
+		<div class="alert alert-danger" *ngIf="error_message != ''">
+			<strong>Error!</strong> {{ error_message }}
+		</div>	
+              <!--<input type="hidden" placeholder="ID" [(ngModel)]="newPayment.id">-->
+		<div class="row">
+	              <div class="form-group col-md-3">
+        	        <label for="metodo_pago">Medio de Pago</label>
+                	<input type="text" id="metodo_pago"
+				ng2-auto-complete [source]="myMetodosPago.bind(this)" 
+				placeholder="Metodo Pago" [(ngModel)]="newPayment.metodo_pago_name"  
+				(valueChanged)="valueChanged($event)" 
+				loading-text="Buscando por código..." />
+        	      </div>
+			<div class="col-md-1">
+			</div>
+        	      <div class="form-group col-md-3">
+                	<label for="amount">Importe</label>
+	                <input type="text" id="amount"
+				class="align-right"
+				(keypress)="onKeyPress(newPayment.amount)"
+				placeholder="Importe" [(ngModel)]="newPayment.amount">
+        	      </div>
+
+	            </div>
+		</div>
+		<div class="row">
+		</div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" (click)="addTicketPayment(newPayment)">Confirmar</button>
+                  <button type="button" class="btn btn-default" data-dismiss="modal" (click)="hideAddPayment()">Cancelar</button>
+              </div>
+      </div>
+  </div>
+</div>
+
+<a *ngIf="this.p_action=='new' || this.p_action=='edit'" class="btn btn-primary" (click)="newTicketPayment()" >Agregar Pago</a>
+
+<div id="list" class="row">
+  <div class="table-responsive col-md-12">
+    <table class="table table-striped" cellspacing="0" cellpadding="0">
+      <thead>
+        <tr>
+            <th>ID</th>
+            <th>Metodo Pago</th>
+            <th class="text-right">Monto</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="p_TicketPayments.length >= 0">
+        <tr *ngIf="this.p_action=='edit' && this.excel_line_adder==true">
+          <td><input type="hidden" placeholder="ID" [(ngModel)]="newPayment.id"></td>
+          <td><input type="text" ng2-auto-complete [source]="myPayments.bind(this)" placeholder="Metodo Pago" [(ngModel)]="newPayment.metodo_pago_id" 
+			[max-num-list]="5" [min-chars]="3" (valueChanged)="valueChanged($event)" loading-text="Buscando por código..." 
+			display-property-name="key"  [list-formatter]="myListFormatter">
+          <input type="text" placeholder="Metodo Pago" [(ngModel)]="newPayment.metodo_pago_name"></td>
+          <td><input type="text" placeholder="Monto" [(ngModel)]="newPayment.amount"></td>
+          <td *ngIf="this.p_action=='edit'"></td>
+          <td *ngIf="this.p_action=='edit'" class="actions">
+              <a class="btn btn-primary btn-xs" (click)="addTicketItem(newPayment)" title="Agregar">++</a>
+          </td>
+        </tr>
+        <tr *ngFor="let Payment of p_TicketPayments">
+          <td>{{Payment.id}}</td>
+          <td>{{Payment.metodo_pago_name}} [{{Payment.metodo_pago_id}}]</td>
+          <td class="text-right">
+		<span *ngIf="!isEditing(Payment)">{{ Payment.amount | number : '1.2-2' }} $</span>
+	  </td>
+          <td *ngIf="this.p_action=='edit' || this.p_action=='new'" class="actions">
+              <a *ngIf="!isEditing(Payment)" class="btn btn-warning btn-xs" (click)="removeTicketPayment(Payment)" >Borrar</a>
+              <a *ngIf="isEditing(Payment)" class="btn btn-warning btn-xs" (click)="saveTicketPayment(editPayment)" >Guardar</a>
+          </td>
+      </tr>
+      <tr>
+          <td></td>
+          <td>Total</td>
+          <td colspan="1" class="text-right">{{ payments_total | number : '1.2-2'}} $</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

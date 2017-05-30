@@ -1,0 +1,25 @@
+<h2>Syncro</h2>
+
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th>Tabla</th>
+			<th>Local</th>
+			<th>Central</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngFor="let table of list_db">
+			<td>{{ table.dbname }}</td>
+			<td>{{ table.count }}</td>
+		</tr>
+	</tbody>
+	<div class="row">
+		<div class="col-md2">
+			<button type="button" class="btn" (click)="onClickSyncProductos()">Productos</button>
+		</div>
+		<div class="col-md2">
+			<button type="button" class="btn" (click)="onClickQuery()">Query</button>
+		</div>
+	</div>
+</table>

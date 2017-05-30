@@ -1,0 +1,315 @@
+<div *ngIf="this.deleting_item" class="modal fade show in" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="modalLabel">Borrar Item</h4>
+            </div>
+            <div class="modal-body">¿Desea realmente borrar este item? {{this.deleting_ticket}} </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" (click)="deleteItem();">Si</button>
+                  <button type="button" class="btn btn-default" data-dismiss="modal" (click)="cancelDeleteItem()">No</button>
+              </div>
+      </div>
+  </div>
+</div>
+
+
+<div id="top" class="row">
+  <div class="col-md-9">
+      <h2>{{message}}</h2>
+  </div>
+</div> <!-- /#top -->
+
+<div *ngIf="this.action!=''">
+  <div  class="row">
+    <form class="form-horizontal">
+    <!-- div  class="form-inline" -->
+
+      <div class="form-group col-xs-3">
+          <label for="cliente" class="control-label">Cliente DNI</label>
+          <input class="form-control" 
+		id="cliente"
+		required
+		ng2-auto-complete [source]="myClients.bind(this)" 	
+		 placeholder="Cliente DNI" autofocus="" [(ngModel)]="newTicket.cliente_dni" 
+		[max-num-list]="10" [min-chars]="3" name="cliente_dni" (valueChanged)="valueChanged($event)" 
+		loading-text="Buscando por DNI..." display-property-name="key"  [list-formatter]="myListFormatter"/>
+      </div>
+      <div class="form-group col-xs-1">
+	</div>
+      <div class="form-group col-xs-5">
+          <label for="cliente_name" class="control-label">Cliente Nombre</label>
+           <input placeholder="Cliente" class="form-control" 
+		[(ngModel)]="newTicket.client" name="cliente_name"
+		readonly />
+      </div>
+
+     </form>
+   </div>
+  <div  class="row">
+    <form class="form-horizontal">
+      <div class="form-group col-xs-4">
+        <label for="seller" class="control-label">Vendedor</label>
+          <input class="form-control" 
+		id="seller"
+		required [max-num-list]="15"
+		ng2-auto-complete [source]="mySellers.bind(this)" 	
+		 placeholder="Vendedor..." autofocus="" [(ngModel)]="newTicket.seller" 
+		name="seller" 
+		loading-text="Buscando Vendedor..." />
+      </div>
+      <div class="form-group col-xs-1">
+	</div>
+      <div class="form-group col-xs-4">
+        <label for="pricelist" class="control-label">Lista de Precios</label>
+          <input class="form-control" 
+		id="pricelist"
+		required [max-num-list]="15"
+		ng2-auto-complete [source]="myPricelists.bind(this)" 	
+		 placeholder="Lista de Precios..." autofocus="" [(ngModel)]="newTicket.pricelist" 
+		name="pricelist" 
+		loading-text="Buscando Lista de Precios..." />
+      </div>
+
+      <div class="form-group col-xs-1">
+	</div>
+
+      <div class="form-group col-xs-2">
+        <label for="fecha" class="control-label">Fecha</label>
+        <input class="form-control" 
+		required
+		readonly 
+		id="fecha" 
+		placeholder="DD/MM/YYYY" autofocus=""
+                ng2-datetime-picker [(ngModel)]="newTicket.date"
+		(keyup.enter)="addTicket()" name="fecha" required/>
+      </div>
+
+    <!-- /div -->
+    </form>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+        <ticket-items [p_TicketItems]="newTicket.items" [p_action]="action" [p_Ticket]="newTicket" (notify)='onNotify($event)'></ticket-items>
+    </div>
+    <!-- div class="col-md-12" *ngIf="newTicket.items.length > 0" -->
+    <div class="col-md-12" >
+        <ticket-payments [p_TicketPayments]="newTicket.payments" [p_action]="action" [p_Ticket]="newTicket" (notify)='onNotify($event)'></ticket-payments>
+    </div>
+  </div>
+  <div class="row" *ngIf="newTicket.isValid() || this.action=='delete'">
+    <div class="col-md-6">
+      </div>
+    <div class="col-md-6"><a routerLink="/tickets" routerLinkActive="active" class="btn btn-warning pull-right">Cancelar</a>
+      <button *ngIf="this.action=='edit' || this.action=='new'" (click)="addTicket()"
+            class="btn btn-primary pull-right">Confirmar</button>
+      <button *ngIf="this.action=='delete'" (click)="removeTicket(newTicket)"
+            class="btn btn-warning pull-right">Borrar</button>
+  		<div *ngIf="!ticket_printed">
+		      <button (click)="printTicket()" class="btn btn-success pull-right">
+				Imprimir
+			    	<i class="fa fa-print"></i> 
+			</button>	
+		</div>
+    </div>
+  </div>
+
+</div>
+
+<div *ngIf="this.action==''" class="row">
+  <div class="col-md-11">
+	<div class="btn-group btn-group-justified" role="group" aria-label="...">
+	  <div class="btn-group" role="group">
+	    <button type="button" class="btn btn-default"
+		(click)="onClickToday()">Hoy</button>
+	  </div>
+	  <div class="btn-group" role="group">
+	    <button type="button" class="btn btn-default"
+		(click)="onClickNotPaid()">Impagos</button>
+	  </div>
+	  <div class="btn-group" role="group" >
+	    <button type="button" class="btn btn-default" (click)="onClickNotPrinted()">Sin Imprimir</button>
+	  </div>
+	  <div class="btn-group col-md-3" role="group">
+	        <button type="button" routerLink="/tickets/new" routerLinkActive="active"  class="btn btn-primary pull-left">Nuevo Ticket</button>
+	  </div>
+	</div> <!-- btn-group -->
+        <!-- &nbsp;<a routerLink="/tickets/new" routerLinkActive="active"  class="btn btn-primary pull-left h2">Nuevo Ticket</a> -->
+    </div> <!-- col-md-11 -->
+</div>
+
+<div *ngIf="this.action==''" id="top" class="row">
+<hr />
+</div>
+
+
+<div *ngIf="this.action==''" id="list" class="row">
+  <hr />
+  <div class="table-responsive col-md-12">
+    <table class="table table-striped" cellspacing="0" cellpadding="0">
+      <thead>
+        <tr>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>Vendedor</th>
+            <th>Items</th>
+            <th>Monto</th>
+            <th>Fecha</th>
+            <th class="actions">Acciones</th>
+            <th>Saldo Pendiente</th>
+            <th>Impreso</th>
+            <th>Sincronizado</th>
+            <th>Printed Date</th>
+          </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let ticket of asyncTickets | async | paginate: { itemsPerPage: ipp, currentPage: p, totalItems: total }" >
+          <td *ngIf="ticket">{{ticket.id}}</td>
+          <td *ngIf="ticket">{{ticket.client}}</td>
+          <td *ngIf="ticket">{{ticket.vendedor.doc.name}}</td>
+          <td *ngIf="ticket && ticket.items">{{ticket.items.length}}</td>
+          <td *ngIf="ticket">{{ticket.amount | number : '1.2-2'}} $</td>
+          <td *ngIf="ticket">{{ticket.date | date:'dd/MM/yyyy'}}</td>
+          <td  *ngIf="ticket" class="actions">
+              <a class="btn btn-success btn-xs" [routerLink]="['/tickets/view', ticket.id]" >Ver</a>
+              <a *ngIf="!ticket.ticket_printed" class="btn btn-success btn-xs" [routerLink]="['/tickets/edit', ticket.id]" >Editar</a>
+              <button *ngIf="!ticket.ticket_printed" class="btn btn-warning btn-xs" (click)="deletingItem(ticket.id);" >Borrar</button>
+          </td>
+          <td  *ngIf="ticket">{{ ticket.residual_amount | number : '1.2-2' }} $</td>
+          <td  *ngIf="ticket.ticket_printed">Impreso <span align="right"><i class="fa fa-print" aria-hidden="true"></i></span></td>
+          <td  *ngIf="ticket">En Progreso <span align="right"><i class="fa fa-pencil" aria-hidden="true"></i></span></td>
+          <td  *ngIf="ticket.printed_date">{{ ticket.printed_date }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div id="bottom" class="row">
+    <div class="col-md-12">
+            <div class="spinner" [ngClass]="{ 'hidden': !loading }"></div>
+            <pagination-controls (pageChange)="getPage($event)" ></pagination-controls>
+    </div>
+  </div> <!-- /#bottom -->
+
+<div *ngIf="this.action=='' && this.ticketFilterPrinted.ticket_printed == false" id="list_new" class="row">
+  <hr />
+  <div class="table-responsive col-md-12">
+    <table class="table table-striped" cellspacing="0" cellpadding="0">
+      <thead>
+        <tr>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>Vendedor</th>
+            <th>Items</th>
+            <th>Monto</th>
+            <th>Fecha</th>
+            <th class="actions">Acciones</th>
+            <th>Saldo Pendiente</th>
+            <th>Impreso</th>
+            <th>Sincronizado</th>
+          </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let ticket of data_tickets  | filterBy: ticketFilterPrinted" >
+          <td *ngIf="ticket">{{ticket.id}}</td>
+          <td *ngIf="ticket">{{ticket.client}}</td>
+          <td *ngIf="ticket.seller.doc">{{ticket.seller.doc.name}}</td>
+          <td *ngIf="ticket && ticket.items">{{ticket.items.length}}</td>
+          <td *ngIf="ticket">{{ticket.amount | number : '1.2-2'}} $</td>
+          <td *ngIf="ticket">{{ticket.date | date:'dd/MM/yyyy' }}</td>
+          <td  *ngIf="ticket" class="actions">
+              <a class="btn btn-success btn-xs" [routerLink]="['/tickets/view', ticket.id]" >Ver</a>
+              <a *ngIf="!ticket.ticket_printed" class="btn btn-success btn-xs" [routerLink]="['/tickets/edit', ticket.id]" >Editar</a>
+              <button *ngIf="!ticket.ticket_printed" class="btn btn-warning btn-xs" (click)="deletingItem(ticket.id);" >Borrar</button>
+          </td>
+          <td  *ngIf="ticket">{{ ticket.residual_amount | number : '1.2-2' }} $</td>
+          <td  *ngIf="ticket.ticket_printed">Impreso <span align="right"><i class="fa fa-print" aria-hidden="true"></i></span></td>
+          <td  *ngIf="!ticket.ticket_printed">En Progreso <span align="right"><i class="fa fa-pencil" aria-hidden="true"></i></span></td>
+          <td  *ngIf="ticket">Sincronizado <span align="right"><i class="fa fa-rss" aria-hidden="true"></i></span></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<div *ngIf="this.action=='' && this.ticketFilterPaid.ticket_paid == false" id="list_new" class="row">
+  <hr />
+  <div class="table-responsive col-md-12">
+    <table class="table table-striped" cellspacing="0" cellpadding="0">
+      <thead>
+        <tr>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>Vendedor</th>
+            <th>Items</th>
+            <th>Monto</th>
+            <th>Fecha</th>
+            <th class="actions">Acciones</th>
+            <th>Saldo Pendiente</th>
+            <th>Impreso</th>
+            <th>Sincronizado</th>
+          </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let ticket of data_tickets  | filterBy: ticketFilterPaid" >
+          <td *ngIf="ticket">{{ticket.id}}</td>
+          <td *ngIf="ticket">{{ticket.client}}</td>
+          <td *ngIf="ticket.seller.doc">{{ticket.seller.doc.name}}</td>
+          <td *ngIf="ticket && ticket.items">{{ticket.items.length}}</td>
+          <td *ngIf="ticket">{{ticket.amount | number : '1.2-2'}} $</td>
+          <td *ngIf="ticket">{{ticket.date | date:'dd/MM/yyyy' }}</td>
+          <td  *ngIf="ticket" class="actions">
+              <a class="btn btn-success btn-xs" [routerLink]="['/tickets/view', ticket.id]" >Ver</a>
+              <a *ngIf="!ticket.ticket_printed" class="btn btn-success btn-xs" [routerLink]="['/tickets/edit', ticket.id]" >Editar</a>
+              <button *ngIf="!ticket.ticket_printed" class="btn btn-warning btn-xs" (click)="deletingItem(ticket.id);" >Borrar</button>
+          </td>
+          <td  *ngIf="ticket">{{ ticket.residual_amount | number : '1.2-2' }} $</td>
+          <td  *ngIf="ticket.ticket_printed">Impreso <span align="right"><i class="fa fa-print" aria-hidden="true"></i></span></td>
+          <td  *ngIf="!ticket.ticket_printed">En Progreso <span align="right"><i class="fa fa-pencil" aria-hidden="true"></i></span></td>
+          <td  *ngIf="ticket">Sincronizado <span align="right"><i class="fa fa-rss" aria-hidden="true"></i></span></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+<div *ngIf="this.ticketFilterToday.printed_date" id="list_new" class="row">
+  <div class="table-responsive col-md-12">
+    <table class="table table-striped" cellspacing="0" cellpadding="0">
+      <thead>
+        <tr>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>Vendedor</th>
+            <th>Items</th>
+            <th>Monto</th>
+            <th>Fecha</th>
+            <th class="actions">Acciones</th>
+            <th>Saldo Pendiente</th>
+            <th>Impreso</th>
+            <th>Sincronizado</th>
+          </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let ticket of data_tickets  | filterBy: ticketFilterToday" >
+          <td *ngIf="ticket">{{ticket.id}}</td>
+          <td *ngIf="ticket">{{ticket.client}}</td>
+          <td *ngIf="ticket.seller.doc">{{ticket.seller.doc.name}}</td>
+          <td *ngIf="ticket && ticket.items">{{ticket.items.length}}</td>
+          <td *ngIf="ticket">{{ticket.amount | number : '1.2-2'}} $</td>
+          <td *ngIf="ticket">{{ticket.date | date:'dd/MM/yyyy' }}</td>
+          <td  *ngIf="ticket" class="actions">
+              <a class="btn btn-success btn-xs" [routerLink]="['/tickets/view', ticket.id]" >Ver</a>
+              <a *ngIf="!ticket.ticket_printed" class="btn btn-success btn-xs" [routerLink]="['/tickets/edit', ticket.id]" >Editar</a>
+              <button *ngIf="!ticket.ticket_printed" class="btn btn-warning btn-xs" (click)="deletingItem(ticket.id);" >Borrar</button>
+          </td>
+          <td  *ngIf="ticket">{{ ticket.residual_amount | number : '1.2-2' }} $</td>
+          <td  *ngIf="ticket.ticket_printed">Impreso <span align="right"><i class="fa fa-print" aria-hidden="true"></i></span></td>
+          <td  *ngIf="!ticket.ticket_printed">En Progreso <span align="right"><i class="fa fa-pencil" aria-hidden="true"></i></span></td>
+          <td  *ngIf="ticket">Sincronizado <span align="right"><i class="fa fa-rss" aria-hidden="true"></i></span></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

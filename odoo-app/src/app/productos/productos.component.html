@@ -1,0 +1,126 @@
+	     <div id="top" class="row">
+		        <h2>{{message}}</h2>
+		</div>
+	     <div class="row jumbotron">
+		    <div class="form-group col-md-6">
+			    <label for="search-default-code" class="control-label">Código</label>
+		            <input name="data[search]" class="form-control" 
+				[(ngModel)] = "userFilter.default_code"
+				id="search-default-code" type="text" placeholder="Buscar Productos por Código">
+		    </div>
+		    <div class="form-group col-md-6">
+			    <label for="search-name" class="control-label">Nombre</label>
+		            <input name="data[search]" class="form-control" 
+				[(ngModel)] = "userFilter.name"
+				id="search-name" type="text" placeholder="Buscar Productos por Nombre">
+		            <!-- span class="input-group-btn">
+                		<button class="btn btn-primary" type="submit" >
+		                    <span class="glyphicon glyphicon-search"></span>
+                		</button>
+		            </span -->
+		    </div>
+	     </div> <!-- /#top -->
+	     <hr>
+	     <div id="list" class="row" *ngIf="userFilter.default_code == '' && userFilter.name == ''">
+		   <div class="table-responsive col-md-12">
+		        <table class="table table-striped" cellspacing="0" cellpadding="0">
+		            <thead>
+                		<tr>
+		                    <th>Código</th>
+                		    <th>Nombre</th>
+		                    <th>Precio</th>
+		                    <th>Stock</th>
+		                 </tr>
+		            </thead>
+		            <tbody >
+                		<tr *ngFor="let producto of asyncProductos | async | paginate: { itemsPerPage: ipp, currentPage: p, totalItems: total }">
+		                    <td *ngIf="producto">{{producto.default_code}}</td>
+                		    <td *ngIf="producto">{{producto.name}}</td>
+		                    <td *ngIf="producto" class="col-number">{{producto.lst_price | currency:'USD':true}} </td>
+                		    <td *ngIf="producto">{{producto.qty_available}}</td>
+		                    <td *ngIf="producto"class="actions">
+                		        <!-- a class="btn btn-success btn-xs" href="view.html">Stock y Precios</a -->
+					<button class="btn  btn-success btn-xs" (click)="onClickStockPrices(producto)">Stock y Precios</button>
+		                    </td>
+		                </tr>
+		            </tbody>
+		         </table>
+		     </div>
+	     </div> <!-- /#list -->
+	     <div id="list" class="row" *ngIf="userFilter.default_code != '' || userFilter.name !=''">
+		   <div class="table-responsive col-md-12">
+		        <table class="table table-striped" cellspacing="0" cellpadding="0">
+		            <thead>
+                		<tr>
+		                    <th>Código</th>
+                		    <th>Nombre</th>
+		                    <th>Precio</th>
+		                    <th>Stock</th>
+		                 </tr>
+		            </thead>
+		            <tbody >
+                		<!-- tr *ngFor="let producto of Productos | filterBy: userFilter" -->
+                		<tr *ngFor="let producto of data_productos | filterBy: userFilter">
+		                    <td *ngIf="producto">{{producto.default_code}}</td>
+                		    <td *ngIf="producto">{{producto.name}}</td>
+		                    <td *ngIf="producto" class="col-number">{{producto.lst_price | currency:'USD':true}} </td>
+                		    <td *ngIf="producto">{{producto.qty_available}}</td>
+		                    <td *ngIf="producto"class="actions">
+                		        <a class="btn btn-success btn-xs" href="view.html">Stock y Precios</a>
+		                    </td>
+		                </tr>
+		            </tbody>
+		         </table>
+		   </div>
+		</div>
+
+	     <div class="row" *ngIf="userFilter.default_code == ''">
+
+	            <div class="col-md-12" >
+        	        <div class="spinner" [ngClass]="{ 'hidden': !loading }">
+			</div>
+                	<pagination-controls (pageChange)="getPage($event)" ></pagination-controls>
+		    </div>
+
+	     </div> 
+
+		<div class="bottom" *ngIf="ProductInfo">
+			<div class="row" >
+				<h3>Precios e Inventarios</h3>
+			</div><!-- /#bottom -->
+			<div class="row" *ngIf="ProductInfo">
+				<h4>{{ ProductInfo.name }} - {{ ProductInfo.default_code }}</h4>
+			</div>
+			<div class="row">
+				<div class="col-md-5" >
+					<table class="table table-striped" *ngIf="StockInfo">
+						<thead>	
+							<th>Depósito</th>
+							<th>Inventario</th>
+						</thead>
+						<tbody>
+							<tr *ngFor="let stock of StockInfo">
+								<td>{{ stock.location_id }}</td>
+								<td>{{ stock.qty }}</td>
+							</tr>
+						</tbody>
+					</table>	
+				</div>
+				<div class="col-md-2">
+				</div>
+				<div class="col-md-5" >
+					<table class="table table-striped" *ngIf="PriceInfo">
+						<thead>	
+							<th>Lista de Precios</th>
+							<th>Precios</th>
+						</thead>
+						<tbody>
+							<tr *ngFor="let price of PriceInfo">
+								<td>{{ price.pricelist_id }}</td>
+								<td>{{ price.precio }}</td>
+							</tr>
+						</tbody>
+					</table>	
+				</div>
+			</div>	
+		</div> <!-- bottom -->

@@ -1,0 +1,93 @@
+
+<div *ngIf="newItem && addingitem==true" class="modal fade show in" id="add-item-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="modalLabel">Agregar Item</h4>
+            </div>
+            <div class="modal-body">
+		
+              <!--<input type="hidden" placeholder="ID" [(ngModel)]="newItem.id">-->
+		<div class="row">
+	              <div class="form-group col-md-4">
+        	        <label>Producto</label>
+                	<input type="text" ng2-auto-complete [source]="myProducts.bind(this)" 
+				placeholder="Nombre Producto" [(ngModel)]="newItem.product_id" [max-num-list]="5" 
+				[min-chars]="3" (valueChanged)="valueChanged($event)" 
+				loading-text="Buscando por código..." display-property-name="key"  [list-formatter]="myListFormatter">
+	                  <input type="text" placeholder="Producto Id" [(ngModel)]="newItem.product_name">
+        	      </div>
+
+	              <div class="form-group col-md-4">
+        	        <label>Cantidad</label>
+                	<input type="text" placeholder="Cantidad" [(ngModel)]="newItem.product_qty">
+	              </div>
+        	      <div class="form-group col-md-4">
+                	<label>Precio Unidad</label>
+	                <input type="text" placeholder="PrecioxU" [(ngModel)]="newItem.product_unit_price">
+        	      </div>
+
+	            </div>
+		</div>
+		<div class="row">
+		</div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" (click)="addTicketItem(newItem)">Confirmar</button>
+                  <button type="button" class="btn btn-default" data-dismiss="modal" (click)="hideAddItem()">Cancelar</button>
+              </div>
+      </div>
+  </div>
+</div>
+
+<a *ngIf="this.p_action=='new' || this.p_action=='edit'" class="btn btn-primary" (click)="newTicketItem()" >Agregar Item</a>
+
+<div id="list" class="row">
+  <div class="table-responsive col-md-12">
+    <table class="table table-striped" cellspacing="0" cellpadding="0">
+      <thead>
+        <tr>
+            <th>ID</th>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Precio Unitario</th>
+            <th>Precio</th>
+            <th *ngIf="this.p_action=='edit'" class="actions">Acciones</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="p_TicketItems.length >= 0">
+        <tr *ngIf="this.p_action=='edit' && this.excel_line_adder==true">
+          <td><input type="hidden" placeholder="ID" [(ngModel)]="newItem.id"></td>
+          <td><input type="text" ng2-auto-complete [source]="myProducts.bind(this)" placeholder="Nombre Producto" [(ngModel)]="newItem.product_id" [max-num-list]="5" [min-chars]="3" (valueChanged)="valueChanged($event)" loading-text="Buscando por código..." display-property-name="key"  [list-formatter]="myListFormatter">
+          <input type="text" placeholder="Producto Id" [(ngModel)]="newItem.product_name"></td>
+          <td><input type="text" placeholder="Cantidad" [(ngModel)]="newItem.product_qty"></td>
+          <td><input type="text" placeholder="PrecioxU" [(ngModel)]="newItem.product_unit_price"></td>
+          <td *ngIf="this.p_action=='edit'"></td>
+          <td *ngIf="this.p_action=='edit'" class="actions">
+              <a class="btn btn-primary btn-xs" (click)="addTicketItem(newItem)" title="Agregar">++</a>
+          </td>
+      </tr>
+        <tr *ngFor="let Item of p_TicketItems">
+          <td>{{Item.id}}</td>
+          <td>{{Item.product_name}} [{{Item.product_id}}]</td>
+          <td><span *ngIf="!isEditing(Item)">{{Item.product_qty}}</span><input *ngIf="isEditing(Item)" type="text" placeholder="Cantidad" [(ngModel)]="editItem.product_qty"></td>
+          <td><span *ngIf="!isEditing(Item)">{{Item.product_unit_price | number : '1.2-2'}} $</span>
+		<input *ngIf="isEditing(Item)" type="text" placeholder="PrecioxU" [(ngModel)]="editItem.product_unit_price"></td>
+          <td>{{Item.product_unit_price*Item.product_qty | number : '1.2-2'}} $</td>
+          <td *ngIf="this.p_action=='edit' || this.p_action=='new'" class="actions">
+              <a *ngIf="!isEditing(Item)" class="btn btn-primary btn-xs" (click)="editTicketItem(Item)" >Editar</a>
+              <a *ngIf="!isEditing(Item)" class="btn btn-warning btn-xs" (click)="removeTicketItem(Item)" >Borrar</a>
+              <a *ngIf="isEditing(Item)" class="btn btn-warning btn-xs" (click)="saveTicketItem(editItem)" >Guardar</a>
+          </td>
+      </tr>
+      <tr>
+          <td colspan="3"></td>
+          <td *ngIf="this.p_action=='edit'" colspan="1"></td>
+          <td colspan="1">Total</td>
+          <td colspan="1">{{ items_total | number : '1.2-2'}} $</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
