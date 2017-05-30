@@ -44,21 +44,21 @@ export class TicketsAppComponent implements OnInit {
   deleting_item: boolean = false;
   deleting_ticket: any;
   table_id: string = "tickets";
-  ticketFilterToday: any = { 
-		printed_date: '',	
-		};	
-  ticketFilterPrinted: any = { 
+  ticketFilterToday: any = {
+		printed_date: '',
+		};
+  ticketFilterPrinted: any = {
 		ticket_printed: undefined,
-		};	
-  ticketFilterPaid: any = { 
+		};
+  ticketFilterPaid: any = {
 		ticket_paid: undefined,
-		};	
+		};
 
   ipp: number = 5;
   p: number;
   total: number;
   loading: boolean = false;
-  asyncTickets: Observable<Object[]>; 
+  asyncTickets: Observable<Object[]>;
   myTickets: any;
 
   constructor(
@@ -268,7 +268,7 @@ export class TicketsAppComponent implements OnInit {
 		if ( search_keyword == '') {
 	          row.value = row.doc.name;
 	          this.data.push(row);
-		} 
+		}
 		else {
 			var row_value = row.doc.name;
 			if (row_value.startsWith(search_keyword)) {
@@ -314,7 +314,7 @@ export class TicketsAppComponent implements OnInit {
 		if ( search_keyword == '') {
 	          row.value = row.doc.name;
 	          this.data.push(row);
-		} 
+		}
 		else {
 			var row_value = row.doc.name;
 			if (row_value.startsWith(search_keyword)) {

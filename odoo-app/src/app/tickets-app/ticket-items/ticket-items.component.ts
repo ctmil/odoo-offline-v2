@@ -41,7 +41,7 @@ export class TicketItemsComponent implements OnInit {
     console.log("valueChange:", event);
     console.log('p_Ticket',this.p_Ticket);
     this.newItem.product_name = event.doc.name;
-    if (this.newItem.product_qty == undefined) 
+    if (this.newItem.product_qty == undefined)
 	this.newItem.product_qty = 1;
     var pricelist = Number(this.p_Ticket.pricelist.id);
     var prices = event.value.prices;

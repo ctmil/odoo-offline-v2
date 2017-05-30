@@ -42,7 +42,7 @@ import { Ng2FilterPipeModule } from 'ng2-filter-pipe';
 import {DataTableModule} from "angular2-datatable";
 
 export function configFactory() {
-    return new ConfigStaticLoader('/config.json'); // PATH || API ENDPOINT
+    return new ConfigStaticLoader('./assets/config.json'); // PATH || API ENDPOINT
 }
 
 @NgModule({

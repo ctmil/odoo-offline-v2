@@ -1,6 +1,6 @@
 #!/bin/sh
 sudo npm install -g buffer-shims
-sudo npm install -g angular-cli
+sudo npm install -g @angular/cli@latest
 sudo npm install -g alm
 sudo npm install -g typings
 sudo npm install -g tslint

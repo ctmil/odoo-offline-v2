@@ -11,14 +11,14 @@ describe('Tickets', () => {
 
   it('should accept values in the constructor', () => {
     let tickets = new Tickets({
-      id: 234,
+      id: '234',
       date: new Date(),
       client: 'NewClient',
       seller: 'NewSeller',
     });
     expect(tickets.client).toEqual('NewClient');
     expect(tickets.seller).toEqual('NewSeller');
-    expect(tickets.id).toEqual(234);
+    expect(tickets.id).toEqual('234');
     //expect(tickets.date).toEqual(234);
   });
 
