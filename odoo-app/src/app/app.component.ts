@@ -81,10 +81,10 @@ export class AppComponent implements OnInit, OnDestroy {
     private http: Http) {
 
     //[CHROME-APP] Función para abrir la App de la impresora
-    chrome.management.launchApp("kgdioinopjoooeokeiofepdhjebppbid", function(){
+    /*chrome.management.launchApp("kgdioinopjoooeokeiofepdhjebppbid", function(){
       if(chrome.runtime.lastError) console.error(chrome.runtime.lastError);
       else console.log("App launched");
-    });
+    });*/
     //Dlg.alert("YEAH");
 
     overlay.defaultViewContainer = vcRef;

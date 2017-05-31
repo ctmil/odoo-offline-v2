@@ -12,6 +12,7 @@ import { AppRoutingModule } from './routing/app-route.module';
 import { LoginRoutingModule } from './routing/login-route.module';
 
 import { TicketsAppComponent } from './tickets-app/tickets-app.component';
+import { ImpresorasComponent } from './impresoras/impresoras.component';
 import { TicketItemsComponent } from './tickets-app/ticket-items/ticket-items.component';
 import { TicketPaymentsComponent } from './tickets-app/ticket-payments/ticket-payments.component';
 import { ClientesComponent } from './clientes/clientes.component';
@@ -63,7 +64,8 @@ export function configFactory() {
     SyncroComponent,
     PageNotFoundComponent,
     LoginComponent,
-    CollapseDirective
+    CollapseDirective,
+    ImpresorasComponent
   ],
   imports: [
     LocalStorageModule.withConfig({

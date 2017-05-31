@@ -1,0 +1,27 @@
+<div id="top" class="row">
+   <div class="col-md-3">
+       <h2>{{message}}</h2>
+   </div>
+</div>
+
+<hr>
+<div id="list" class="row">
+<div class="table-responsive col-md-12">
+  <div id="status"></div><p>{{status}}</p>
+  <hr>
+     <table class="table table-striped" cellspacing="0" cellpadding="0">
+       <tbody *ngIf="printer">
+           <tr>
+               <td>
+                 <button id="b1" class="green" type="button" name="button_1" (click)="abrir();">Abrir Impresora</button>
+               </td>
+           </tr>
+       </tbody>
+      </table>
+  </div>
+</div> <!-- /#list -->
+
+<div id="bottom" class="row">
+
+
+</div> <!-- /#bottom -->

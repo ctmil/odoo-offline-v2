@@ -12,6 +12,7 @@ import { MetodoPagoComponent } from '../metodo_pago/metodo_pago.component';
 import { ConexionComponent } from '../conexion/conexion.component';
 import { HomeComponent } from '../home/home.component';
 import { AboutComponent } from '../about/about.component';
+import { ImpresorasComponent } from '../impresoras/impresoras.component';
 import { SyncroComponent } from '../syncro/syncro.component';
 import { PageNotFoundComponent } from '../not-found.component';
 
@@ -33,6 +34,7 @@ const appRoutes: Routes = [
   { path: 'tickets/view/:id', component: TicketsAppComponent, data: { title: 'Odoo-app Moldeo / Viendo Ticket', action: 'view' } },
   { path: 'tickets/delete/:id', component: TicketsAppComponent, data: { title: 'Odoo-app Moldeo / Borrar Ticket', action: 'delete' } },
   { path: 'about', component: AboutComponent, data: { title: 'Odoo-app Moldeo / Acerca' } },
+  { path: 'impresoras', component: ImpresorasComponent, data: { title: 'Odoo-app Moldeo / Impresoras' } },
   { path: '**', component: PageNotFoundComponent },
 ];
 
