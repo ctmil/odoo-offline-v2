@@ -28,19 +28,19 @@
 
       <div class="form-group col-xs-3">
           <label for="cliente" class="control-label">Cliente DNI</label>
-          <input class="form-control" 
+          <input class="form-control"
 		id="cliente"
 		required
-		ng2-auto-complete [source]="myClients.bind(this)" 	
-		 placeholder="Cliente DNI" autofocus="" [(ngModel)]="newTicket.cliente_dni" 
-		[max-num-list]="10" [min-chars]="3" name="cliente_dni" (valueChanged)="valueChanged($event)" 
+		ng2-auto-complete [source]="myClients.bind(this)"
+		 placeholder="Cliente DNI" autofocus="" [(ngModel)]="newTicket.cliente_dni"
+		[max-num-list]="10" [min-chars]="3" name="cliente_dni" (valueChanged)="valueChanged($event)"
 		loading-text="Buscando por DNI..." display-property-name="key"  [list-formatter]="myListFormatter"/>
       </div>
       <div class="form-group col-xs-1">
 	</div>
       <div class="form-group col-xs-5">
           <label for="cliente_name" class="control-label">Cliente Nombre</label>
-           <input placeholder="Cliente" class="form-control" 
+           <input placeholder="Cliente" class="form-control"
 		[(ngModel)]="newTicket.client" name="cliente_name"
 		readonly />
       </div>
@@ -51,24 +51,24 @@
     <form class="form-horizontal">
       <div class="form-group col-xs-4">
         <label for="seller" class="control-label">Vendedor</label>
-          <input class="form-control" 
+          <input class="form-control"
 		id="seller"
 		required [max-num-list]="15"
-		ng2-auto-complete [source]="mySellers.bind(this)" 	
-		 placeholder="Vendedor..." autofocus="" [(ngModel)]="newTicket.seller" 
-		name="seller" 
+		ng2-auto-complete [source]="mySellers.bind(this)"
+		 placeholder="Vendedor..." autofocus="" [(ngModel)]="newTicket.seller"
+		name="seller"
 		loading-text="Buscando Vendedor..." />
       </div>
       <div class="form-group col-xs-1">
 	</div>
       <div class="form-group col-xs-4">
         <label for="pricelist" class="control-label">Lista de Precios</label>
-          <input class="form-control" 
+          <input class="form-control"
 		id="pricelist"
 		required [max-num-list]="15"
-		ng2-auto-complete [source]="myPricelists.bind(this)" 	
-		 placeholder="Lista de Precios..." autofocus="" [(ngModel)]="newTicket.pricelist" 
-		name="pricelist" 
+		ng2-auto-complete [source]="myPricelists.bind(this)"
+		 placeholder="Lista de Precios..." autofocus="" [(ngModel)]="newTicket.pricelist"
+		name="pricelist"
 		loading-text="Buscando Lista de Precios..." />
       </div>
 
@@ -77,10 +77,10 @@
 
       <div class="form-group col-xs-2">
         <label for="fecha" class="control-label">Fecha</label>
-        <input class="form-control" 
+        <input class="form-control"
 		required
-		readonly 
-		id="fecha" 
+		readonly
+		id="fecha"
 		placeholder="DD/MM/YYYY" autofocus=""
                 ng2-datetime-picker [(ngModel)]="newTicket.date"
 		(keyup.enter)="addTicket()" name="fecha" required/>
@@ -109,8 +109,8 @@
   		<div *ngIf="!ticket_printed">
 		      <button (click)="printTicket()" class="btn btn-success pull-right">
 				Imprimir
-			    	<i class="fa fa-print"></i> 
-			</button>	
+			    	<i class="fa fa-print"></i>
+			</button>
 		</div>
     </div>
   </div>
@@ -313,3 +313,16 @@
     </table>
   </div>
 </div>
+
+<table class="table table-striped" cellspacing="0" cellpadding="0">
+  <tbody>
+      <tr>
+          <td class="printer_td">
+            <button id="b1" class="blue printer" type="button" name="button_1" (click)="openPrinterApp();">Imprimir Test</button>
+          </td>
+          <td class="printer_td">
+            <button id="b2" class="blue printer" type="button" name="button_1" (click)="prTicket();">Imprimir Ticket</button>
+          </td>
+      </tr>
+  </tbody>
+ </table>

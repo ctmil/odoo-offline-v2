@@ -9,15 +9,15 @@
             <div class="modal-body">
 		<div class="alert alert-danger" *ngIf="error_message != ''">
 			<strong>Error!</strong> {{ error_message }}
-		</div>	
+		</div>
               <!--<input type="hidden" placeholder="ID" [(ngModel)]="newPayment.id">-->
 		<div class="row">
 	              <div class="form-group col-md-3">
         	        <label for="metodo_pago">Medio de Pago</label>
                 	<input type="text" id="metodo_pago"
-				ng2-auto-complete [source]="myMetodosPago.bind(this)" 
-				placeholder="Metodo Pago" [(ngModel)]="newPayment.metodo_pago_name"  
-				(valueChanged)="valueChanged($event)" 
+				ng2-auto-complete [source]="myMetodosPago.bind(this)"
+				placeholder="Metodo Pago" [(ngModel)]="newPayment.metodo_pago_name"
+				(valueChanged)="valueChanged($event)"
 				loading-text="Buscando por código..." />
         	      </div>
 			<div class="col-md-1">
@@ -57,8 +57,8 @@
       <tbody *ngIf="p_TicketPayments.length >= 0">
         <tr *ngIf="this.p_action=='edit' && this.excel_line_adder==true">
           <td><input type="hidden" placeholder="ID" [(ngModel)]="newPayment.id"></td>
-          <td><input type="text" ng2-auto-complete [source]="myPayments.bind(this)" placeholder="Metodo Pago" [(ngModel)]="newPayment.metodo_pago_id" 
-			[max-num-list]="5" [min-chars]="3" (valueChanged)="valueChanged($event)" loading-text="Buscando por código..." 
+          <td><input type="text" ng2-auto-complete [source]="myPayments.bind(this)" placeholder="Metodo Pago" [(ngModel)]="newPayment.metodo_pago_id"
+			[max-num-list]="5" [min-chars]="3" (valueChanged)="valueChanged($event)" loading-text="Buscando por código..."
 			display-property-name="key"  [list-formatter]="myListFormatter">
           <input type="text" placeholder="Metodo Pago" [(ngModel)]="newPayment.metodo_pago_name"></td>
           <td><input type="text" placeholder="Monto" [(ngModel)]="newPayment.amount"></td>
@@ -86,5 +86,4 @@
       </tbody>
     </table>
   </div>
-
 </div>

@@ -454,11 +454,109 @@ export class TicketsAppComponent implements OnInit {
 
     } else {
       this.action = "";
-
     }
   }
 
   ngOnDestroy() {
     this.cx_productosDatabaseUpdated_sub.unsubscribe();
+  }
+
+  //////////////////////////////////////////////////////////////
+  //IMPRESORA
+
+  prTicket(){
+    //Lanzar APP local-fiscal-printer
+    chrome.management.launchApp("oconkafegdbdklinbhkoopgbjnbgndap", function(){
+      if(chrome.runtime.lastError) console.error(chrome.runtime.lastError);
+      else console.log("App launched");
+    });
+
+    //Valores Options y Ticket
+    var options = {
+      triplicated: false,
+      store_description: false,
+      keep_description_attributes: false,
+      store_extra_descriptions: false,
+    };
+    var ticket = {
+      partner: {
+          name: "Cristian S. Rocha",
+          name_2: "",
+          address: "Av. Rivadavia 9858",
+          address_2: "Buenos Aires",
+          address_3: "Argentina",
+          document_type: "D",
+          document_number: "25095454",
+          responsability: "F",
+      },
+      related_document: "",
+      related_document_2: "",
+      origin_document: "",
+      lines: [ {
+          item_action: "sale_item",
+          as_gross: false,
+          send_subtotal: false,
+          check_item: false,
+          collect_type: "q",
+          large_label: "",
+          first_line_label: "",
+          description: "",
+          description_2: "",
+          description_3: "",
+          description_4: "",
+          item_description: "Item 1",
+          quantity: 1,
+          unit_price: 100,
+          vat_rate: 21.0,
+          fixed_taxes: 0,
+          taxes_rate: 0,
+          }, {
+          item_action: "sale_item",
+          as_gross: false,
+          send_subtotal: false,
+          check_item: false,
+          collect_type: "q",
+          large_label: "",
+          first_line_label: "",
+          description: "",
+          description_2: "",
+          description_3: "",
+          description_4: "",
+          item_description: "Item 2",
+          quantity: 2,
+          unit_price: 200,
+          vat_rate: 20.0,
+          fixed_taxes: 0,
+          taxes_rate: 0,
+          },
+      ],
+      cut_paper: true,
+      electronic_answer: false,
+      print_return_attribute: false,
+      current_account_automatic_pay: false,
+      print_quantities: false,
+      tail_no: 0,
+      tail_text: "",
+      tail_no_2: 0,
+      tail_text_2: "",
+      tail_no_3: 0,
+      tail_text_3: "",
+    };
+
+    //Enviar Mensaje de Ticket y Options
+    setTimeout(function(){
+      chrome.runtime.sendMessage(
+        "oconkafegdbdklinbhkoopgbjnbgndap",
+        {myTicket: ticket, myOption: options},
+        function(response) {
+      });
+    }, 1000);
+  }
+
+  openPrinterApp(){
+    chrome.management.launchApp("oconkafegdbdklinbhkoopgbjnbgndap", function(){
+      if(chrome.runtime.lastError) console.error(chrome.runtime.lastError);
+      else console.log("App launched");
+    });
   }
 }

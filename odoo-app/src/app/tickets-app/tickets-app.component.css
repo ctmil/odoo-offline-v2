@@ -365,3 +365,25 @@ html .clear-completed:active {
 	}
 }
 */
+
+.printer{
+  width:150px;
+  height:35px;
+  border-radius:3px;
+  color:#fff;
+  opacity:1;
+  outline:none;
+}
+.printer_td{
+  text-align:center;
+}
+.blue{
+  background:#337ab7;
+  border:solid 1px #186fa6;
+}
+.blue:hover{
+  background:#286090;
+}
+.blue:active{
+  background:#1b7cba;
+}

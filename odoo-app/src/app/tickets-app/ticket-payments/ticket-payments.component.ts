@@ -35,6 +35,7 @@ export class TicketPaymentsComponent implements OnInit {
 	error_message: string = '';
 
   private _id: number = 0;
+
   constructor( private CxService: ConexionService, private cd: ChangeDetectorRef) {
 	  }
 
@@ -159,8 +160,6 @@ export class TicketPaymentsComponent implements OnInit {
     });
 
   }
-
-
 
   removeTicketPayment(removePayment: TicketPayment) {
     console.log("removeTicketPayment", removePayment);
