@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core";
+import { Component, OnInit, AfterViewInit, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core";
 import { FormControl, FormGroup } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -67,7 +67,13 @@ export class TicketsAppComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private cd: ChangeDetectorRef) {
-	this.newTicket.date = new Date();
+	  this.newTicket.date = new Date();
+
+    cd.detach();
+    setInterval(() => {
+      this.cd.markForCheck();
+      this.cd.detectChanges();
+    }, 100);
   }
 
   onNotify( event : any ) {
@@ -76,7 +82,7 @@ export class TicketsAppComponent implements OnInit {
 
 	printTicket() {
 		this.newTicket.ticket_printed = true;
-		}
+	}
 
   addTicket() {
     if (this.newTicket.items.length > 0) {
@@ -86,7 +92,7 @@ export class TicketsAppComponent implements OnInit {
 	      //this.newTicket = new Tickets();
 	      this.router.navigate(['/tickets']);
 	    });
-	}
+	   }
   }
 
   deletingItem(id) {
@@ -180,7 +186,7 @@ export class TicketsAppComponent implements OnInit {
         });
         console.log("Data:",this.data);
         subscriber.next( this.data );
-            /*this.search_clientes = [];
+        /*this.search_clientes = [];
         if (result.rows) {
           for (var i in result.rows) {
             this.search_clientes.push(result.rows[i].id);
@@ -277,10 +283,10 @@ export class TicketsAppComponent implements OnInit {
 			}
 		};
 		console.log(this.data);
-          //observer.onNext(this["data"]);
+        //observer.onNext(this["data"]);
         });
         subscriber.next( this.data );
-            /*this.search_clientes = [];
+        /*this.search_clientes = [];
         if (result.rows) {
           for (var i in result.rows) {
             this.search_sellers.push(result.rows[i].id);
@@ -350,14 +356,14 @@ export class TicketsAppComponent implements OnInit {
 		this.ticketFilterPrinted.ticket_printed = false;
 		this.ticketFilterToday.printed_date = '';
 		this.ticketFilterPaid.ticket_paid = undefined;
-		}
+	}
 
 	onClickNotPaid() {
 		console.log('Clickeo filtro impago');
 		this.ticketFilterPaid.ticket_paid = false;
 		this.ticketFilterPrinted.ticket_printed = undefined;
 		this.ticketFilterToday.printed_date = '';
-		}
+	}
 
 	onClickToday() {
 		console.log('Clickeo filtro hoy');
@@ -365,29 +371,29 @@ export class TicketsAppComponent implements OnInit {
 		this.ticketFilterPaid.ticket_paid = undefined;
 		this.ticketFilterPrinted.ticket_printed = undefined;
 		console.log(this.ticketFilterToday);
-		}
+	}
 
   ngOnInit() {
-
       console.log('Antes del all_docs tickets');
       this.CxService.pdb["tickets"]["db"].allDocs({include_docs: true}).then((result) => {
-        // handle result
-        console.log("result:", result, this);
-        this.data_tickets = [];
-        let docs = result.rows.map((row) => {
-		   var temp_ticket = new Tickets();
-		   temp_ticket.id = row.doc.id;
-		   temp_ticket.client = row.doc.client;
-		   temp_ticket.seller = row.doc.seller;
-		   temp_ticket.items = row.doc.items;
-		   // temp_ticket.amount = row.doc.amount;
-		   temp_ticket.date = row.doc.date;
-		   temp_ticket.payments = row.doc.payments;
-		   temp_ticket.ticket_printed = row.doc.ticket_printed;
-		   temp_ticket.printed_date = row.doc.printed_date;
-                   this.data_tickets.push(temp_ticket);
-         });
-	});
+      // handle result
+      console.log("result:", result, this);
+      this.data_tickets = [];
+      let docs = result.rows.map((row) => {
+  		   var temp_ticket = new Tickets();
+  		   temp_ticket.id = row.doc.id;
+  		   temp_ticket.client = row.doc.client;
+  		   temp_ticket.seller = row.doc.seller;
+  		   temp_ticket.items = row.doc.items;
+  		   // temp_ticket.amount = row.doc.amount;
+  		   temp_ticket.date = row.doc.date;
+  		   temp_ticket.payments = row.doc.payments;
+  		   temp_ticket.ticket_printed = row.doc.ticket_printed;
+  		   temp_ticket.printed_date = row.doc.printed_date;
+         this.data_tickets.push(temp_ticket);
+      });
+
+	   });
 
       this.cx_productosDatabaseUpdated_sub = this.CxService.pdb[this.table_id].updated$.subscribe(
       updated => {
@@ -425,7 +431,7 @@ export class TicketsAppComponent implements OnInit {
 
       console.log("TicketsComponent > route params subscribed!", this.subparam);
     }
-/**this.route.params
+    /**this.route.params
     // (+) converts string 'id' to a number
     .switchMap((params: Params) => this.service.getHero(+params['id']))
     .subscribe((hero: Hero) => this.hero = hero); */
@@ -465,6 +471,8 @@ export class TicketsAppComponent implements OnInit {
   //IMPRESORA
 
   prTicket(){
+    //console.log("DATA TICKET:",this.data_tickets);
+
     //Lanzar APP local-fiscal-printer
     chrome.management.launchApp("oconkafegdbdklinbhkoopgbjnbgndap", function(){
       if(chrome.runtime.lastError) console.error(chrome.runtime.lastError);
@@ -559,4 +567,5 @@ export class TicketsAppComponent implements OnInit {
       else console.log("App launched");
     });
   }
+  //////////////////////////////////////////////////////////////////////////////
 }

@@ -57,7 +57,13 @@ export class ProductosComponent implements OnInit, OnDestroy {
 		//	{'location_id': 'Cipolletti','qty': 2000},
 		//	{'location_id': 'Plottier','qty': 3000}
 		//	];
-  	}
+
+    cd.detach();
+    setInterval(() => {
+      this.cd.markForCheck();
+      this.cd.detectChanges();
+    }, 100);
+  }
 
   getPage(event) {
     console.log("getPage " + this.table_id, " from:", this["p"], " to:", event);

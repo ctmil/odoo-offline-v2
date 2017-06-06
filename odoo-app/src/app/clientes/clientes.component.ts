@@ -55,10 +55,16 @@ export class ClientesComponent implements OnInit,OnDestroy {
       this.CxService.pdb[this.table_id].updated.next(true);
     } );*/
     window["Clientes"] = this;
+
+    cd.detach();
+    setInterval(() => {
+      this.cd.markForCheck();
+      this.cd.detectChanges();
+    }, 100);
   }
 
   getPage(event) {
-console.log("getPage " + this.table_id, " from:", this["p"], " to:", event);
+    console.log("getPage " + this.table_id, " from:", this["p"], " to:", event);
     var page: number = event;
     this.loading = true;
     var mytable = this.CxService.pdb[this.table_id]['cache_records'];

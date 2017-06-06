@@ -3,13 +3,13 @@
 		   <div class="row">
 			    <div class="col-md-6">
         		            <label for="search-document-number" class="control-label">Documento</label>
-	        		    <input name="data[search]" class="form-control" 
+	        		    <input name="data[search]" class="form-control"
 					[(ngModel)] = "userFilter.document_number"
 					id="search-document-number" type="text" placeholder="Buscar Clientes por DNI">
 			    </div>
 			    <div class="col-md-6">
 	                	    <label for="search-customer-name" class="control-label">Nombre</label>
-			            <input name="data[search]" class="form-control" 
+			            <input name="data[search]" class="form-control"
 					[(ngModel)] = "userFilter.name"
 					id="search-customer-name" type="text" placeholder="Buscar Clientes por Nombre">
 			            <!-- span class="input-group-btn">
@@ -18,7 +18,7 @@
                				</button>
 			            </span -->
 			    </div>
-		   </div> 
+		   </div>
 	     </div>
 	     <hr>
 	     <div id="list" class="row" *ngIf="userFilter.document_number == '' && userFilter.name == ''">
@@ -88,4 +88,3 @@
 		        </div>
 		    </div>
 	     </div> <!-- /#bottom -->
-
