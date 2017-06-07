@@ -3,18 +3,18 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar" (click)="hideAddItem()"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="modalLabel">Agregar Item</h4>
             </div>
             <div class="modal-body">
-		
+
               <!--<input type="hidden" placeholder="ID" [(ngModel)]="newItem.id">-->
 		<div class="row">
 	              <div class="form-group col-md-4">
         	        <label>Producto</label>
-                	<input type="text" ng2-auto-complete [source]="myProducts.bind(this)" 
-				placeholder="Nombre Producto" [(ngModel)]="newItem.product_id" [max-num-list]="5" 
-				[min-chars]="3" (valueChanged)="valueChanged($event)" 
+                	<input type="text" ng2-auto-complete [source]="myProducts.bind(this)"
+				placeholder="Nombre Producto" [(ngModel)]="newItem.product_id" [max-num-list]="5"
+				[min-chars]="3" (valueChanged)="valueChanged($event)"
 				loading-text="Buscando por código..." display-property-name="key"  [list-formatter]="myListFormatter">
 	                  <input type="text" placeholder="Producto Id" [(ngModel)]="newItem.product_name">
         	      </div>
@@ -25,7 +25,7 @@
 	              </div>
         	      <div class="form-group col-md-4">
                 	<label>Precio Unidad</label>
-	                <input type="text" placeholder="PrecioxU" [(ngModel)]="newItem.product_unit_price">
+	                <input id="lst_price" type="text" placeholder="PrecioxU" [(ngModel)]="newItem.product_unit_price">
         	      </div>
 
 	            </div>

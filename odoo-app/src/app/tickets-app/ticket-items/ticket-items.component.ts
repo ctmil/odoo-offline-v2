@@ -36,17 +36,19 @@ export class TicketItemsComponent implements OnInit {
 
   ngOnInit() {}
 
-
   valueChanged(event) {
     console.log("valueChange:", event);
+    console.log("price:", event.value.lst_price);
     console.log('p_Ticket',this.p_Ticket);
     this.newItem.product_name = event.doc.name;
-    if (this.newItem.product_qty == undefined)
-	this.newItem.product_qty = 1;
-    var pricelist = Number(this.p_Ticket.pricelist.id);
-    var prices = event.value.prices;
-    console.log('Prices',prices[pricelist]);
-    this.newItem.product_unit_price = prices[pricelist][1];
+    if (this.newItem.product_qty == undefined){
+        this.newItem.product_qty = 1;
+    }
+    //var pricelist = Number(this.p_Ticket.pricelist.id);
+    //var prices = event.value.prices;
+    //console.log('Prices',prices[pricelist]);
+    //this.newItem.product_unit_price = prices[pricelist][1];
+    this.newItem.product_unit_price = event.value.lst_price;
   }
   myListFormatter(data: any): string {
       console.log("data:", data);
@@ -103,23 +105,22 @@ export class TicketItemsComponent implements OnInit {
       return _items_total;
   }
 
-
   myProducts(search_keyword) {
     console.log("searching products!", search_keyword, this);
 
     return Observable.create((subscriber: Subscriber<{}> )=> {
 
       console.log("subscriber", subscriber, this);
-      // this.CxService.pdb["product.product"]["db"].query("idx_default_code",{startkey: search_keyword, limit: 5, include_docs: true
+      this.CxService.pdb["product.product"]["db"].query("idx_default_code",{startkey: search_keyword, limit: 5, include_docs: true
       // this.CxService.pdb["product.product"]["db"].find({ selector: {default_code: {$gte: search_keyword, limit: 5}}
-      this.CxService.pdb["product.product"]["db"].find({ selector: {default_code: {$eq: search_keyword}, limit: 5}
+      //this.CxService.pdb["product.product"]["db"].find({ selector: {default_code: {$eq: search_keyword}, limit: 5}
       }).then((result) => {
         // handle result
         console.log("resultado:", result, this);
         this["data"] = [];
         let docs = result.rows.map((row) => {
           row.value = row.doc;
-        this.data.push(row);
+          this.data.push(row);
           //observer.onNext(this["data"]);
         });
         console.log("Data:",this.data);
@@ -135,15 +136,14 @@ export class TicketItemsComponent implements OnInit {
         this.cd.detectChanges();
         return result.rows;
       }).catch(function(err) {
-	console.log('Por lo visto no encontro');
-        console.log(err);
+	       console.log('Por lo visto no encontro');
+         console.log(err);
       });
       //observer.onCompleted();
       return () => console.log("disposed");
     });
 
   }
-
 
   removeTicketItem(removeItem: TicketItem) {
     console.log("removeTicketItem", removeItem);

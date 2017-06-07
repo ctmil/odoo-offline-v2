@@ -141,3 +141,19 @@ hr {
 	}
 }
 */
+#reload{
+  background:none;
+  font-size:44px;
+  border:none;
+  position:fixed;
+  top:60px;
+  left:15px;
+  opacity: 0.8;
+  transition: all 0.5s;
+}
+#reload:hover{
+  text-decoration:none;
+  opacity:1;
+  transform: rotate(360deg);
+  transition: all 0.3s;
+}
