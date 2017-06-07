@@ -174,6 +174,7 @@
           <td  *ngIf="ticket" class="actions">
               <a class="btn btn-success btn-xs" [routerLink]="['/tickets/view', ticket.id]" >Ver</a>
               <a *ngIf="!ticket.ticket_printed" class="btn btn-success btn-xs" [routerLink]="['/tickets/edit', ticket.id]" >Editar</a>
+              <button class="btn btn-success btn-xs" (click)="prTicket(ticket);">Imprimir</button>
               <button *ngIf="!ticket.ticket_printed" class="btn btn-warning btn-xs" (click)="deletingItem(ticket.id);" >Borrar</button>
           </td>
           <td  *ngIf="ticket">{{ ticket.residual_amount | number : '1.2-2' }} $</td>
@@ -217,9 +218,10 @@
           <td *ngIf="ticket && ticket.items">{{ticket.items.length}}</td>
           <td *ngIf="ticket">{{ticket.amount | number : '1.2-2'}} $</td>
           <td *ngIf="ticket">{{ticket.date | date:'dd/MM/yyyy' }}</td>
-          <td  *ngIf="ticket" class="actions">
+          <td *ngIf="ticket" class="actions">
               <a class="btn btn-success btn-xs" [routerLink]="['/tickets/view', ticket.id]" >Ver</a>
               <a *ngIf="!ticket.ticket_printed" class="btn btn-success btn-xs" [routerLink]="['/tickets/edit', ticket.id]" >Editar</a>
+              <button class="btn btn-success btn-xs" (click)="prTicket(ticket);">Imprimir</button>
               <button *ngIf="!ticket.ticket_printed" class="btn btn-warning btn-xs" (click)="deletingItem(ticket.id);" >Borrar</button>
           </td>
           <td  *ngIf="ticket">{{ ticket.residual_amount | number : '1.2-2' }} $</td>
@@ -262,6 +264,7 @@
           <td  *ngIf="ticket" class="actions">
               <a class="btn btn-success btn-xs" [routerLink]="['/tickets/view', ticket.id]" >Ver</a>
               <a *ngIf="!ticket.ticket_printed" class="btn btn-success btn-xs" [routerLink]="['/tickets/edit', ticket.id]" >Editar</a>
+              <button class="btn btn-success btn-xs" (click)="prTicket(ticket);">Imprimir</button>
               <button *ngIf="!ticket.ticket_printed" class="btn btn-warning btn-xs" (click)="deletingItem(ticket.id);" >Borrar</button>
           </td>
           <td  *ngIf="ticket">{{ ticket.residual_amount | number : '1.2-2' }} $</td>
@@ -302,6 +305,7 @@
           <td  *ngIf="ticket" class="actions">
               <a class="btn btn-success btn-xs" [routerLink]="['/tickets/view', ticket.id]" >Ver</a>
               <a *ngIf="!ticket.ticket_printed" class="btn btn-success btn-xs" [routerLink]="['/tickets/edit', ticket.id]" >Editar</a>
+              <button class="btn btn-success btn-xs" (click)="prTicket(ticket);">Imprimir</button>
               <button *ngIf="!ticket.ticket_printed" class="btn btn-warning btn-xs" (click)="deletingItem(ticket.id);" >Borrar</button>
           </td>
           <td  *ngIf="ticket">{{ ticket.residual_amount | number : '1.2-2' }} $</td>
@@ -318,10 +322,7 @@
   <tbody>
       <tr>
           <td class="printer_td">
-            <button id="b1" class="blue printer" type="button" name="button_1" (click)="openPrinterApp();">Imprimir Test</button>
-          </td>
-          <td class="printer_td">
-            <button id="b2" class="blue printer" type="button" name="button_1" (click)="prTicket();">Imprimir Ticket</button>
+            <button id="b2" class="blue printer" type="button" name="button_1" (click)="prTicket(1);">Probar Impresora</button>
           </td>
       </tr>
   </tbody>

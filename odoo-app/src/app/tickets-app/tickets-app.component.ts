@@ -467,11 +467,42 @@ export class TicketsAppComponent implements OnInit {
     this.cx_productosDatabaseUpdated_sub.unsubscribe();
   }
 
-  //////////////////////////////////////////////////////////////
-  //IMPRESORA
+  /////////////////////////////////////////////////////////////
+  //IMPRESORA//////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////
 
-  prTicket(){
-    //console.log("DATA TICKET:",this.data_tickets);
+  prTicket(ticket_i:any){
+    //console.log("DATA TICKET:", ticket_i.items[0]);
+    let dni;
+    let items = [];
+
+    for (let i = 0; i < ticket_i.items.length; i++) {
+      items[i] = {
+          item_action: "sale_item",
+          as_gross: false,
+          send_subtotal: false,
+          check_item: false,
+          collect_type: "q",
+          large_label: "",
+          first_line_label: "",
+          description: ticket_i.items[i].product_name,
+          description_2: "",
+          description_3: "",
+          description_4: "",
+          item_description: "ID:",
+          quantity: ticket_i.items[i].product_qty,
+          unit_price: ticket_i.items[i].product_unit_price,
+          vat_rate: 21.0,
+          fixed_taxes: 0,
+          taxes_rate: 0,
+        };
+    }
+
+    if(typeof ticket_i.cliente_dni === 'object'){
+      dni = ticket_i.cliente_dni.key;
+    }else{
+      dni = ticket_i.cliente_dni;
+    }
 
     //Lanzar APP local-fiscal-printer
     chrome.management.launchApp("oconkafegdbdklinbhkoopgbjnbgndap", function(){
@@ -488,63 +519,26 @@ export class TicketsAppComponent implements OnInit {
     };
     var ticket = {
       partner: {
-          name: "Cristian S. Rocha",
+          name: ticket_i.client,
           name_2: "",
-          address: "Av. Rivadavia 9858",
-          address_2: "Buenos Aires",
+          address: "Calle 001",
+          address_2: "Provincia 001",
           address_3: "Argentina",
           document_type: "D",
-          document_number: "25095454",
+          document_number: dni,
           responsability: "F",
       },
       related_document: "",
       related_document_2: "",
-      origin_document: "",
-      lines: [ {
-          item_action: "sale_item",
-          as_gross: false,
-          send_subtotal: false,
-          check_item: false,
-          collect_type: "q",
-          large_label: "",
-          first_line_label: "",
-          description: "",
-          description_2: "",
-          description_3: "",
-          description_4: "",
-          item_description: "Item 1",
-          quantity: 1,
-          unit_price: 100,
-          vat_rate: 21.0,
-          fixed_taxes: 0,
-          taxes_rate: 0,
-          }, {
-          item_action: "sale_item",
-          as_gross: false,
-          send_subtotal: false,
-          check_item: false,
-          collect_type: "q",
-          large_label: "",
-          first_line_label: "",
-          description: "",
-          description_2: "",
-          description_3: "",
-          description_4: "",
-          item_description: "Item 2",
-          quantity: 2,
-          unit_price: 200,
-          vat_rate: 20.0,
-          fixed_taxes: 0,
-          taxes_rate: 0,
-          },
-      ],
+      origin_document: "B0001000010000",
+      lines: items,
       cut_paper: true,
       electronic_answer: false,
       print_return_attribute: false,
       current_account_automatic_pay: false,
       print_quantities: false,
       tail_no: 0,
-      tail_text: "",
+      tail_text: "Test 002",
       tail_no_2: 0,
       tail_text_2: "",
       tail_no_3: 0,
