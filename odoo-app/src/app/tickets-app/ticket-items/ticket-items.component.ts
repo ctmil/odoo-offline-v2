@@ -39,16 +39,16 @@ export class TicketItemsComponent implements OnInit {
   valueChanged(event) {
     console.log("valueChange:", event);
     console.log("price:", event.value.lst_price);
-    console.log('p_Ticket',this.p_Ticket);
+    console.log('p_Ticket', this.p_Ticket);
     this.newItem.product_name = event.doc.name;
     if (this.newItem.product_qty == undefined){
         this.newItem.product_qty = 1;
     }
-    //var pricelist = Number(this.p_Ticket.pricelist.id);
-    //var prices = event.value.prices;
-    //console.log('Prices',prices[pricelist]);
-    //this.newItem.product_unit_price = prices[pricelist][1];
-    this.newItem.product_unit_price = event.value.lst_price;
+    var pricelist = Number(this.p_Ticket.pricelist.id);
+    var prices = event.value.prices;
+    console.log('Prices',prices[pricelist]);
+    this.newItem.product_unit_price = prices[pricelist];
+    //this.newItem.product_unit_price = event.value.lst_price;
   }
   myListFormatter(data: any): string {
       console.log("data:", data);
